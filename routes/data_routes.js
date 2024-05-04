@@ -1,91 +1,35 @@
 const data_router = require('express').Router()
-const {User, Post, Comment} = require('../models')
 
-function isAuth(req,res,next){
-    if(!req.session.user_id){
-        return res.redirect('/register')
-    }
-
-    next()
-}
+const {isAuth, signup, login, createPost, updatePost, deletePost, addComment} = require('../controllers/data_controller')
 
 //register user
 data_router.post('/auth/signup', async (req,res) => {
-    try{
-        const data = req.body
-        const user = await User.create(data) //creates intert statement for you
-
-        //store info to server, so we have active record of user data
-        //allows us to know when they return if their data is active then they are logged in (auth)
-        req.session.user_id = user.id 
-
-        res.redirect('/dashboard')
-
-    }catch (err) {
-        console.log(err)
-        //redirect user back to register page
-        res.redirect('/signup')
-    }
+    signup(req,res)
 })
 
+//login
 data_router.post('/auth/login', async (req,res) => {
-    const {username, password} = req.body
-        const user = await User.findOne({
-            where: {
-                username: username
-            }
-        }) 
-
-        if(!user) return res.redirect('/signup')
-
-        const valid_pass = await user.validatePass(password)
-
-        if(!valid_pass) return res.redirect('/login')
-
-        req.session.user_id = user.id
-        res.redirect('/dashboard')
-})
-
-//get all posts to display
-data_router.get('/posts', async (req,res) => {
-    const posts = await Post.findAll()
+    login(req,res)
 })
 
 //create a post
-data_router.post('/post', async (req,res) =>{
-    console.log(Post)
-    const {title, text} = req.body
-    const date = new Date().toDateString()
-    const id = req.session.user_id
-    await Post.create({title: title, text: text, date: date, userId: id})
-
-    res.redirect('/dashboard')
+data_router.post('/post', isAuth, async (req,res) =>{
+    createPost(req,res)
 })
 
 //update a post
-data_router.post('/update/post/:id', async (req,res) =>{
-    const id = req.params.id
-    const {title, text} = req.body
-    await Post.update(
-            {
-                title: title,
-                text: text
-            },{
-            where: {
-                id: id
-            }}
-    )
+data_router.post('/update/post/:id', isAuth, async (req,res) =>{
+    updatePost(req,res)
+})
 
-    res.redirect('/dashboard')
+//delete a post
+data_router.post('/delete/post/:id', isAuth, async (req,res) =>{
+    deletePost(req,res)
 })
 
 //add a comment
-data_router.post('/comment/:id', async (req,res) =>{
-    const id = req.params.id
-    const {comment} = req.body
-    await Comment.create({text: comment, postId: id})
-
-    res.redirect('/')
+data_router.post('/comment/:id', isAuth, async (req,res) =>{
+    addComment(req,res)
 })
 
 module.exports = data_router

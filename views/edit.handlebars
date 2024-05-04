@@ -4,3 +4,6 @@
     <textarea class="p-2 m-2 w-25" type="text" id="text" name="text" placeholder="Text">{{postText}}</textarea>
     <button class="p-2 m-2 w-25" type="submit">Submit</button>
 </form>
+<form class="d-flex flex-column align-items-center" action="/delete/post/{{postID}}" method="POST">
+    <button class="p-2 m-2 w-25 bg-danger-subtle">Delete</button>
+</form>

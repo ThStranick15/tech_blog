@@ -7,8 +7,11 @@ Comment.init(
     {
         text: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
+            allowNull: false
+        },
+        date: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     {
