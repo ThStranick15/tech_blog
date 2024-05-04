@@ -1,7 +1,14 @@
 const client = require('../db/client')
 const { DataTypes, Model } = require('sequelize');
 
-class User extends Model {}
+class User extends Model {
+    validatePass(password) {
+        if(password == this.password){
+            return true
+        }
+        return false
+    }
+}
 User.init(
     //Describe the columns and values
     {

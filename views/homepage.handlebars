@@ -1,4 +1,8 @@
-<h1>All User's Existing Blog Posts</h1>
-<div>
-    <p>Placeholder Blog Post</p>
-</div>
+<h1>All Existing Blog Posts</h1>
+{{#each posts}}
+<section class="d-flex flex-column w-50 bg-primary-subtle m-2">
+    <h1 class="d-flex justify-content-between align-items-center bg-primary text-white rounded p-2">{{this.dataValues.title}}<a role="button" href="/comment/{{this.dataValues.id}}" class="fs-5 p-2 text-center pointer text-decoration-none bg-white rounded">Add Comment</a></h1>
+    <p class="p-2">{{this.dataValues.date}}</p>
+    <p class="p-2">{{this.dataValues.text}}</p>
+</section>
+{{/each}}

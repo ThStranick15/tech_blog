@@ -15,6 +15,7 @@ const client = require('./db/client')
 
 //allow url encoded data, extended allows other data types
 app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 
 //setup handlebars
 app.engine('handlebars', engine());

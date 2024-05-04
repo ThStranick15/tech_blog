@@ -53,14 +53,39 @@ data_router.get('/posts', async (req,res) => {
 
 //create a post
 data_router.post('/post', async (req,res) =>{
-    console.log('here')
     console.log(Post)
     const {title, text} = req.body
     const date = new Date().toDateString()
     const id = req.session.user_id
-    const newPost = await Post.create({title: title, text: text, date: date, userId: id})
+    await Post.create({title: title, text: text, date: date, userId: id})
 
     res.redirect('/dashboard')
+})
+
+//update a post
+data_router.post('/update/post/:id', async (req,res) =>{
+    const id = req.params.id
+    const {title, text} = req.body
+    await Post.update(
+            {
+                title: title,
+                text: text
+            },{
+            where: {
+                id: id
+            }}
+    )
+
+    res.redirect('/dashboard')
+})
+
+//add a comment
+data_router.post('/comment/:id', async (req,res) =>{
+    const id = req.params.id
+    const {comment} = req.body
+    await Comment.create({text: comment, postId: id})
+
+    res.redirect('/')
 })
 
 module.exports = data_router
