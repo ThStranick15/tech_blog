@@ -1,11 +1,21 @@
 const { Sequelize } = require('sequelize');
-const client = new Sequelize(
-    process.env.DB_NAME, //database name
-    process.env.DB_USERNAME, //postgres server username
-    process.env.DB_PASSWORD, { //postgres server password
-    host: 'localhost',
-    dialect: 'postgres'
-  });
+const is_prod = process.env.NODE_ENV
+
+const client = is_prod ? new Sequelize(process.env.DATABASE_URL, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+}) : new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD, {
+  host: 'localhost',
+  dialect: 'postgres',
+  logging: false
+});
 
 
 module.exports = client
