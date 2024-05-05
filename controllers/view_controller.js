@@ -69,6 +69,10 @@ async function viewpost(req,res){
         where: {
             postId: postID
         }
+        // ,
+        // include: {
+        //     model: User
+        // }
     })
     res.render('viewpost', {
         title: 'Post',
@@ -88,7 +92,6 @@ async function editpost(req,res){
             id: id
         }
     })
-    console.log(post)
     const postTitle = post[0].dataValues.title
     const postText = post[0].dataValues.text
     const postID = post[0].dataValues.id
