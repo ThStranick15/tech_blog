@@ -3,6 +3,6 @@
     <p class="p-2">Created By: {{username}} - {{postDate}}</p>
     <p class="p-2">{{postText}}</p>
     {{#each comments}}
-    <p class="p-2 m-2 bg-primary text-white rounded">{{this.dataValues.text}} - {{this.dataValues.date}}</p>
+    <p class="p-2 m-2 bg-primary text-white rounded">{{this.text}} - {{this.date}} - {{this.user.username}}</p>
     {{/each}}
 </section>

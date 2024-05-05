@@ -68,12 +68,11 @@ async function viewpost(req,res){
     const comments = await Comment.findAll({
         where: {
             postId: postID
-        }
-        // ,
-        // include: {
-        //     model: User
-        // }
+        },
+        include: User
+        
     })
+    const plainComments = comments.map(obj => obj.get({ plain: true }))
     res.render('viewpost', {
         title: 'Post',
         postTitle: postTitle,
@@ -81,7 +80,7 @@ async function viewpost(req,res){
         postID: postID,
         postDate: postDate,
         username: username,
-        comments: comments //fix username
+        comments: plainComments //fix username
     })
 }
 
