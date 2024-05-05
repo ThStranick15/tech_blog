@@ -1,0 +1,10 @@
+<div class="d-flex flex-column align-items-center">
+<a class="m-2 p-2 border border-black rounded text-decoration-none" href="/newpost">Create a new Post</a>
+{{#each posts}}
+<section class="d-flex flex-column w-50 bg-primary-subtle m-2">
+    <a href="/edit/{{this.dataValues.id}}"><h1 class="bg-primary text-white rounded p-2">{{this.dataValues.title}}</h1></a>
+    <p class="p-2">{{this.dataValues.date}}</p>
+    <p class="p-2">{{this.dataValues.text}}</p>
+</section>
+{{/each}}
+</div>
